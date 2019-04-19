@@ -1,12 +1,29 @@
 Vamos a utilizar ete archivo para indicar las cosas que tenemos que hacer:
 
-- Tenemos que crear la clase que se encargue de guardar las FSM (por ejemplo: Finite_State class)
+- Tenemos que crear la clase que se encargue de guardar las FSM (por ejemplo: Finite_State class):
+
+        A lo mejor vendria bien implementar varias subclases como: estado y transicion detro de Finite_State class
+
+
+
+
 
 - tenemos que implementar un lector de ficheros que lea la informacion de las FSM y llmaando a las funciones de
    la clase Finite_State para almacenarlas
 
+
+
+
+
 - implementar una funcion que compruebe que un estado tiene o no un interbloquo (esta en la teoria)
 
+
+
+
+
 - implemetar la hashing function
+
+
+
 
 - implementar el algoritmo que se encargue de ejecutar todo
