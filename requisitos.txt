@@ -15,15 +15,17 @@ Vamos a utilizar ete archivo para indicar las cosas que tenemos que hacer:
 
 
 
-- implementar una funcion que compruebe que un estado tiene o no un interbloquo (esta en la teoria)
+- implementar una funcion que compruebe que un estado tiene o no un interbloquo (esta en la teoria):
 
 
 
 
 
-- implemetar la hashing function
+- implemetar la hashing function:
+        - he creado una clase que se llame bitStateHashing que se encargue de crear un archivo donde guardamos si el 
+          nodo se ha visitado o no 
 
 
 
 
-- implementar el algoritmo que se encargue de ejecutar todo
+- implementar el algoritmo que se encargue de ejecutar todo:
