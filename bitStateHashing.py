@@ -6,6 +6,7 @@
 # using a hashing function.
 # 
 # We will using a 16bit for the hashing function, and we will be using 2*16 = 65.535 position
+import ctypes
 
 class bitState:
     
@@ -24,3 +25,13 @@ class bitState:
     def close_file(self):
         return
     
+
+    # This is the hashing function. It will return a integer of 16bits indicating a position 
+    # in the file. In order to calculate this integer it will use all the bits of the global state
+    # matrix
+
+
+    #TODO fix hashing function: jenkings hashing 
+    def hashing_function(self, global_state):
+        return 
+        
