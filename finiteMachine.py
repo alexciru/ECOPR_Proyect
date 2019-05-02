@@ -13,7 +13,7 @@ class finiteMachine:
 
     def __init__(self, id):
         self.id = id    
-        self.states = []
+        self.states = []      # Creates list of states, initialy empty
         return
 
     def add_state(self, state):
@@ -53,8 +53,8 @@ class transition:
         
     """
 
-    def __init__(self, state, acction, signal):
-        self.state = state
+    def __init__(self, next_state, acction, signal):
+        self.state = next_state
         self.acction = acction
         self.signal = signal
         return
