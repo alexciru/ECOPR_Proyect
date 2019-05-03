@@ -6,7 +6,7 @@
 # using a hashing function.
 # 
 # We will using a 16bit for the hashing function, and we will be using 2*16 = 65.535 position
-import ctypes
+
 
 class bitState:
     
@@ -31,7 +31,3 @@ class bitState:
     # matrix
 
 
-    #TODO fix hashing function: jenkings hashing 
-    def hashing_function(self, global_state):
-        return 
-        
