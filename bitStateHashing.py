@@ -11,19 +11,31 @@
 class bitState:
     
     def __init__(self, filename):
-        return
-
-    def visit_node(self, position):
-        return
-
-    def is_node_visited(self, position):
+        self.f = None
+        self.filename = filename
         return
 
     def open_file(self):
+        self.f = open(self.filename, 'w+')
+        self.f.write('0' * 5)
+        # TODO cambiar tamaño por 2**16
         return
 
     def close_file(self):
+        self.f.close()
         return
+
+    def visit_node(self, position):
+        self.f.seek(position)
+        self.f.write('1')
+        return
+
+    def is_node_visited(self, position):
+        self.f.seek(position)
+        return True if self.f.read(1) == '1' else False
+        
+
+    
     
 
     # This is the hashing function. It will return a integer of 16bits indicating a position 

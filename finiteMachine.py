@@ -14,10 +14,14 @@ class finiteMachine:
     def __init__(self, id):
         self.id = id    
         self.states = []      # Creates list of states, initialy empty
+    
         return
 
     def add_state(self, state):
+        self.states.append(state)
         return
+
+    
 
 
     
@@ -31,14 +35,20 @@ class state:
     - identifier:  (A number)
     - transitions: (an array of transitions)
     """
-    def __init__(self, id):
-        self.id = id
+    def __init__(self, state_id, finite_id):
+        self.id = state_id
         self.transitions = []
+        self.counter = 0  # how many states we already visited
         return
 
     def add_transition(self, transition):
         self.transitions.append(transition)
         return
+
+    def next_transition(self):
+        transition = self.transitions[self.counter]
+        self.counter += 1
+        return transition
 
 
 class transition:
@@ -54,7 +64,11 @@ class transition:
     """
 
     def __init__(self, next_state, acction, signal):
+        # self.machine_id 
         self.state = next_state
         self.acction = acction
         self.signal = signal
+        
         return
+
+    
