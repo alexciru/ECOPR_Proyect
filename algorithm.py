@@ -48,7 +48,8 @@ def algorithm(*finite_machines):
 
 
 def create_initial_global_state(n_machines):
-    matrix =[[]]
+    matrix = [[0] * n_machines] * n_machines
+
     for i in range(n_machines):
         for j in range(n_machines):
             if i == j:

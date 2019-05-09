@@ -22,13 +22,6 @@ def main():
 
 
 
-
-
-
-
-
-
-
 #TODO change hashing function: jenkings hashing (use str function) 
 def hashing_function(state):
     value = hash(str(state.global_state))

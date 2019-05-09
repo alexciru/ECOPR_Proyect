@@ -108,7 +108,7 @@ class Transition:
         return
 
     def __str__(self):
-        string = "Transition to S%d: %c %c" & (self.next_state, self.acction, self.signal)
+        string = "Transition to S%d: %c %c" % (self.next_state.id , self.acction, self.signal)
         return string
 
     
