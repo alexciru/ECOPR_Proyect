@@ -8,7 +8,7 @@
 # We will using a 16bit for the hashing function, and we will be using 2*16 = 65.535 position
 
 
-class bitState:
+class BitState:
     
     def __init__(self, filename):
         self.f = None

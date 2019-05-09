@@ -6,6 +6,7 @@
 
 from bitStateHashing import *
 from finiteMachine import *
+from algorithm import *
 
 test_matrix = [['a','-','-'],
                ['-','b','-'],
@@ -15,7 +16,7 @@ def main():
     # Read information from the file
     # start executing the algoritm
     # show how many deadlocks  
-
+    algorithm()
        
     return
 
