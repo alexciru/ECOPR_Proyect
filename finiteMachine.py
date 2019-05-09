@@ -35,7 +35,12 @@ class FiniteMachine:
         transition = Transition(next_state, acction, signal)
         self.states[state_id].add_transition(transition)
         return
+
+
+    def get_transition(self, state_id):
+        return self.states[state_id].get_transactions()
     
+
     def __str__(self):
         string = "Finite Machine: %c \n" % self.id
         for i in range(len(self.states)):
