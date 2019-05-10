@@ -15,19 +15,11 @@ test_matrix = [['a','-','-'],
 def main():
     # Read information from the file
     # start executing the algoritm
-    # show how many deadlocks  
+    # show how many deadlocks 
+    
     algorithm()
        
     return
-
-
-
-#TODO change hashing function: jenkings hashing (use str function) 
-def hashing_function(state):
-    value = hash(str(state.global_state))
-    value = value & 0b1111111111111111
-    #value = bin(value)
-    return value
         
 
 def is_deadlock(state):

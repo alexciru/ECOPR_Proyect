@@ -43,8 +43,8 @@ class BitState:
     # matrix
     #TODO change hashing function: jenkings hashing (use str function) 
     #TODO change mask lenght
-    def hashing_function(self, state):
-        value = hash(str(state.global_state))
+    def hashing_function(self, global_state):
+        value = hash(str(global_state))
         value = value & 0b11111
         return value
         
