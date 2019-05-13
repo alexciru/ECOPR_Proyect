@@ -104,7 +104,8 @@ class Transition:
         
     """
 
-    def __init__(self, from_state, to_state, acction, signal):
+    def __init__(self, id_fsm, from_state, to_state, acction, signal):
+        self.id_fsm = id_fsm
         self.actual_state = from_state 
         self.next_state = to_state
         self.acction = acction

@@ -15,9 +15,8 @@ test_matrix = [['a','-','-'],
 def main():
     # Read information from the file
     # start executing the algoritm
-    # show how many deadlocks 
-    
     algorithm()
+    # show how many deadlocks 
        
     return
         
