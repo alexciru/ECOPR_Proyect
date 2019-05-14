@@ -34,7 +34,7 @@ def algorithm(*finite_machines):
     bit_state_hashing = BitState("hashingtable.txt")
     bit_state_hashing.open_file()
     
-    
+    print("\n\n -------------Algorith start -------------")
 
     initial_node = create_initial_node(machines)
     # ----------- create the stack and add the initial state ---------------
@@ -83,7 +83,7 @@ def algorithm(*finite_machines):
         print("noddeeeee")
         print(actual_node)
 
-        child_node = actual_node.get_next_global_state()
+        child_node = actual_node.get_next_node(machines)
 
         if (child_node == None): stack.remove(0) #we remove it
         else: stack.append(child_node)
@@ -104,12 +104,10 @@ def create_initial_node(fsm):
   
     # check transitions of the state and add them to the stack 
     transitions_list = []
-    print("matrix2  -->" + str(global_state))
     for i in range(len(fsm)):
         state = global_state[i][i]
         
         machine = fsm[i]
-        print(machine)
         transitions = machine.get_transition(state)
         for t in transitions: 
             transitions_list.append(t)

@@ -15,9 +15,9 @@ class Node:
     # in the list of transitions
 
 
-    def get_next_node(self):
-        global_state = get_next_global_state(self)
-        transaction_list = get_transitions(global_state)
+    def get_next_node(self, fsm):
+        global_state = self.get_next_global_state()
+        transaction_list = self.get_transitions(global_state, fsm)
         
         return Node(global_state, transaction_list)
 
@@ -29,7 +29,7 @@ class Node:
 
         transaction = self.transaction_list.pop(0)
         
-        print("Transition == " + str(transaction))
+        print("Creating new Node: Transition == " + str(transaction))
         length = len(self.global_state)
 
         
@@ -56,9 +56,9 @@ class Node:
 
 
     # This function will return the transitions given a matrix of state
-    def get_transitions(self, global_state, **fsm):
+    def get_transitions(self, global_state, fsm):
         transitions_list = []
-        for i in range(fsm):
+        for i in range(len(fsm)):
             state = global_state[i][i]
             
             #transitions_list.append(fsm[i].get_transition(state))
@@ -66,7 +66,7 @@ class Node:
             for t in transitions: 
                 transitions_list.append(t)
         
-        return transaction_list
+        return transitions_list
 
 
     
@@ -80,7 +80,6 @@ class Node:
             # TODO change maximum buffer size
         elif transition.action == '-':
             #check if signal is in the las input in buffer
-            print("Chanel = " + channel)
             if(channel[0] == transition.signal): return True
             else: return False
             
@@ -91,7 +90,7 @@ class Node:
 
 
     def __str__(self):
-        string = "Node" + "\t - "+ str(self.global_state)
+        string = "Node" + "\t - "+ str(self.global_state) + "\n"
         for transition in self.transaction_list:
             string += "\t - " + str(transition) + "\n"
 
