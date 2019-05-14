@@ -24,33 +24,46 @@ class Node:
 
 
     def get_next_global_state(self):
-        if not self.transaction_list: #if not transaction in the list, we already check all posible kids
-            return None
-
-        transaction = self.transaction_list.pop(0)
         
-        print("Creating new Node: Transition == " + str(transaction))
-        length = len(self.global_state)
+        
+        while True: # Obtain a valid transition
+            if not self.transaction_list: return None
+            transaction = self.transaction_list.pop(0)
 
+            if (self.is_transition_posible(transaction)):
+                break
+            
+        
+
+        print("Creating new node with t = " + str(transaction))
+
+        length = len(self.global_state)
         
         # change the channel of the new state depending of the acction
+        id_fsm = transaction.id_fsm
+        other_fsm = 0 if id_fsm == 1 else 1 # TODO change this for more flexibility
 
-        from_id = transaction.actual_state.id
-        to_id = transaction.next_state.id
+        channel = self.global_state[id_fsm][other_fsm]  
+        print("channel = " + channel)
 
-        channel = self.global_state[from_id][to_id]
         
-        if (self.is_transition_posible( transaction)):
-            new_global_state = deepcopy(self.global_state)
-            if(transaction.acction == '+'):
-                new_chanel = transaction.signal + channel
-            elif(transaction.acction == '-'):
-                new_chanel = channel[1:]
-            else:
-                new_chanel = channel
+        new_global_state = deepcopy(self.global_state)
+
+        if(transaction.acction == '+'):
+            new_chanel = transaction.signal + channel
+
+        elif(transaction.acction == '-'):
+            new_chanel = channel[1:]
+
+        else:
+            new_chanel = channel
             
-            new_global_state[transaction.actual_state.id][transaction.next_state.id] = new_chanel
-            
+        new_global_state[id_fsm][other_fsm] = new_chanel
+        
+        # change the diagonal
+        id_fsm = transaction.id_fsm
+        new_global_state[id_fsm][id_fsm] = transaction.next_state.id
+
         return new_global_state
 
 
@@ -60,10 +73,10 @@ class Node:
         transitions_list = []
         for i in range(len(fsm)):
             state = global_state[i][i]
-            
-            #transitions_list.append(fsm[i].get_transition(state))
+
+            #print("[%d][%d] -- state: %c "%( i, i, state))
             transitions = fsm[i].get_transition(state)
-            for t in transitions: 
+            for t in transitions:
                 transitions_list.append(t)
         
         return transitions_list
@@ -75,13 +88,11 @@ class Node:
         # We obtain the channel
         channel = self.global_state[transition.actual_state.id][transition.next_state.id]
         if transition.acction == '+':
-            if (len(channel) <= 10): return True
-            else: return False
+            return True if (len(channel) <= 3) else False
             # TODO change maximum buffer size
         elif transition.action == '-':
-            #check if signal is in the las input in buffer
-            if(channel[0] == transition.signal): return True
-            else: return False
+            #check if signal is in the last input in buffer
+            return True if(channel[0] == transition.signal) else True
             
         else:
             # must be a 'e' action
@@ -90,8 +101,9 @@ class Node:
 
 
     def __str__(self):
-        string = "Node" + "\t - "+ str(self.global_state) + "\n"
-        for transition in self.transaction_list:
-            string += "\t - " + str(transition) + "\n"
+        string = "Node" + "\t - "+ str(self.global_state)
+        
+        #for transition in self.transaction_list:
+        #   string += "\n\t - " + str(transition) + "\n"
 
         return string

@@ -8,13 +8,13 @@ from bitStateHashing import *
 from finiteMachine import *
 from algorithm import *
 
-test_matrix = [['a','-','-'],
-               ['-','b','-'],
-               ['-','-','c']]
 
 def main():
     # Read information from the file
+
+    # Obtain a list of machines
     # start executing the algoritm
+
     algorithm()
     # show how many deadlocks 
        

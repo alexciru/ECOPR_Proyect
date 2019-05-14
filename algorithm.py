@@ -8,18 +8,18 @@ from node import *
 
 def algorithm(*finite_machines):
     # ---------------------------------- Load FSM -----------------------
-    fsm1 = FiniteMachine(1)
-    fsm2 = FiniteMachine(2)
+    fsm1 = FiniteMachine(0)
+    fsm2 = FiniteMachine(1)
     state0 = State(0)
     state1 = State(1)
-    state0.add_transition(Transition(1, state0, state1, '+', 'a'))
-    state0.add_transition(Transition(1, state0, state1, '-', 'a'))
-    state1.add_transition(Transition(1,state1, state0, '+', 'b'))
+    state0.add_transition(Transition(0, state0, state1, '+', 'a'))
+    state0.add_transition(Transition(0, state0, state1, '-', 'a'))
+    state1.add_transition(Transition(0,state1, state0, '+', 'b'))
     st0 = State(0)
     st1 = State(1)
-    st0.add_transition(Transition(2, st0, st1, '+', 'a'))
-    st0.add_transition(Transition(2, st0, st1, '-', 'a'))
-    st1.add_transition(Transition(2, st1, st0, '-', 'b'))
+    st0.add_transition(Transition(1, st0, st1, '+', 'a'))
+    st0.add_transition(Transition(1, st0, st1, '-', 'a'))
+    st1.add_transition(Transition(1, st1, st0, '-', 'b'))
     fsm1.add_state(state0)
     fsm1.add_state(state1)
     fsm2.add_state(st0)
@@ -53,8 +53,8 @@ def algorithm(*finite_machines):
     # ---------------------- Start loop -----------------------
     while stack:
         # We check the last element of the stack without removing it
-        actual_node = stack[0]
-        print("visiting: " + str(actual_node.global_state))
+        actual_node = stack[-1]
+        print("visiting: " + str(actual_node))
         
 
         # We check the positon of the hashi
@@ -64,7 +64,7 @@ def algorithm(*finite_machines):
 
         #if visited jump to the next node
         if bit_state_hashing.is_node_visited(position):
-            print("\t Already visited")
+            print("\t Node Already visited")
             stack.pop() #we remove it
             continue
 
@@ -72,6 +72,7 @@ def algorithm(*finite_machines):
 
         # if not, mark as visited
         bit_state_hashing.visit_node(position)
+        print("we marked it in the bitstate hashing table\n")
 
 
         # check if have deadlock
@@ -80,13 +81,15 @@ def algorithm(*finite_machines):
 
 
         # We obtain the first child and we added to the stack
-        print("noddeeeee")
-        print(actual_node)
 
         child_node = actual_node.get_next_node(machines)
 
-        if (child_node == None): stack.remove(0) #we remove it
-        else: stack.append(child_node)
+        if (child_node == None):
+            print("No node created")
+            stack.pop() # we remove it
+        else: 
+            print("adding to stack: " +str(actual_node)+" ----> " + str(child_node))
+            stack.append(child_node)
 
 
 
@@ -121,7 +124,7 @@ def create_initial_node(fsm):
 
 
 def create_initial_global_state(n_machines):
-    matrix = [['-' for i in range(n_machines)] for j in range(n_machines)]
+    matrix = [['' for i in range(n_machines)] for j in range(n_machines)]
 
     for i in range(n_machines):
         matrix[i][i] = '0'

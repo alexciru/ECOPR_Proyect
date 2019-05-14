@@ -114,7 +114,7 @@ class Transition:
         return
 
     def __str__(self):
-        string = "m%d :Transition to S%d: %c %c" % (self.id_fsm, self.next_state.id , self.acction, self.signal)
+        string = "m%d: S%d to S%d:%c%c" % (self.id_fsm, self.actual_state.id, self.next_state.id , self.acction, self.signal)
         return string
 
     def __repr__(self):
