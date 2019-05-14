@@ -8,8 +8,8 @@ from node import *
 
 def algorithm(*finite_machines):
     # ---------------------------------- Load FSM -----------------------
-    fsm1 = FiniteMachine('1')
-    fsm2 = FiniteMachine('2')
+    fsm1 = FiniteMachine(1)
+    fsm2 = FiniteMachine(2)
     state0 = State(0)
     state1 = State(1)
     state0.add_transition(Transition(1, state0, state1, '+', 'a'))
@@ -65,7 +65,7 @@ def algorithm(*finite_machines):
         #if visited jump to the next node
         if bit_state_hashing.is_node_visited(position):
             print("\t Already visited")
-            stack.remove(0) #we remove it
+            stack.pop() #we remove it
             continue
 
 
@@ -80,7 +80,11 @@ def algorithm(*finite_machines):
 
 
         # We obtain the first child and we added to the stack
+        print("noddeeeee")
+        print(actual_node)
+
         child_node = actual_node.get_next_global_state()
+
         if (child_node == None): stack.remove(0) #we remove it
         else: stack.append(child_node)
 
@@ -95,15 +99,21 @@ def algorithm(*finite_machines):
 
 
 
-def create_initial_node(**fsm):
+def create_initial_node(fsm):
     global_state = create_initial_global_state(len(fsm))    
   
     # check transitions of the state and add them to the stack 
     transitions_list = []
-    for i in range(fsm):
+    print("matrix2  -->" + str(global_state))
+    for i in range(len(fsm)):
         state = global_state[i][i]
-        transitions_list.append(fsm[i].get_transition(state))
-    
+        
+        machine = fsm[i]
+        print(machine)
+        transitions = machine.get_transition(state)
+        for t in transitions: 
+            transitions_list.append(t)
+     
     node = Node(global_state, transitions_list)
     return node
 
@@ -113,14 +123,10 @@ def create_initial_node(**fsm):
 
 
 def create_initial_global_state(n_machines):
-    matrix = [[0] * n_machines] * n_machines
+    matrix = [['-' for i in range(n_machines)] for j in range(n_machines)]
 
     for i in range(n_machines):
-        for j in range(n_machines):
-            if i == j:
-                matrix[i][j] = '0'
-            else:
-                matrix[i][j] = ''
+        matrix[i][i] = '0'
 
     return matrix
 

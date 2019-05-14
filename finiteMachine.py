@@ -38,11 +38,11 @@ class FiniteMachine:
 
 
     def get_transition(self, state_id):
-        return self.states[state_id].get_transactions()
+        return self.states[int(state_id)].get_transitions()
     
 
     def __str__(self):
-        string = "Finite Machine: %c \n" % self.id
+        string = "Finite Machine: %d \n" % self.id
         for i in range(len(self.states)):
             string += str(self.states[i])
             
@@ -114,8 +114,11 @@ class Transition:
         return
 
     def __str__(self):
-        string = "Transition to S%d: %c %c" % (self.next_state.id , self.acction, self.signal)
+        string = "m%d :Transition to S%d: %c %c" % (self.id_fsm, self.next_state.id , self.acction, self.signal)
         return string
+
+    def __repr__(self):
+        return str(self)
 
     
 
