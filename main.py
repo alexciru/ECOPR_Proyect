@@ -13,17 +13,13 @@ def main():
     # Read information from the file
 
     # Obtain a list of machines
-    # start executing the algoritm
 
-    algorithm()
+    # start executing the algoritm
+    deadlocks = algorithm()
     # show how many deadlocks 
        
     return
         
-
-def is_deadlock(state):
-    # TODO comprobar si el estado pasado por argumento tiene o no deadlock
-    return
 
 
 if __name__ == "__main__":

@@ -1,9 +1,19 @@
-
+# File: node.py
+# Authors: Alejandro Cirugeda & Juancarlos Quintana
+# Description:
+# 
+#
 
 from finiteMachine import *
+from bitStateHashing import *
 from copy import copy, deepcopy
 
 class Node:
+    """
+    The Node class is the representation of a node in the transition tree. Every Node have information 
+    about the current state: global_state. And also store information about the posible transictions to 
+    next nodes.
+    """
 
     def __init__(self, global_state, transaction):
         self.global_state = global_state
@@ -16,7 +26,12 @@ class Node:
 
 
     def get_next_node(self, fsm):
+        """
+        Return a new node created by the actual state + the next transition in the list
+        """
+
         global_state = self.get_next_global_state()
+        if global_state == None: return None
         transaction_list = self.get_transitions(global_state, fsm)
         
         return Node(global_state, transaction_list)
@@ -24,35 +39,36 @@ class Node:
 
 
     def get_next_global_state(self):
-        
-        
-        while True: # Obtain a valid transition
-            if not self.transaction_list: return None
-            transaction = self.transaction_list.pop(0)
+        """
+        Create a new matrix of global state modifying the channel depending of the next transition
+        """
 
-            if (self.is_transition_posible(transaction)):
-                break
+        while True: # Obtain a valid transition
+            if not self.transaction_list:
+                return None
+
+            transaction = self.transaction_list.pop(0)
+            if (transaction):
+                if (self.is_transition_posible(transaction)):
+                    break
             
         
-
         print("Creating new node with t = " + str(transaction))
 
         length = len(self.global_state)
         
-        # change the channel of the new state depending of the acction
+        # change the channel of the new state depending of the action
         id_fsm = transaction.id_fsm
         other_fsm = 0 if id_fsm == 1 else 1 # TODO change this for more flexibility
 
         channel = self.global_state[id_fsm][other_fsm]  
-        print("channel = " + channel)
-
         
         new_global_state = deepcopy(self.global_state)
 
-        if(transaction.acction == '+'):
+        if(transaction.action == '+'):
             new_chanel = transaction.signal + channel
 
-        elif(transaction.acction == '-'):
+        elif(transaction.action == '-'):
             new_chanel = channel[1:]
 
         else:
@@ -67,9 +83,10 @@ class Node:
         return new_global_state
 
 
-
-    # This function will return the transitions given a matrix of state
     def get_transitions(self, global_state, fsm):
+        """
+        Will return transaction given the actual states of the machines
+        """
         transitions_list = []
         for i in range(len(fsm)):
             state = global_state[i][i]
@@ -84,14 +101,21 @@ class Node:
 
     
     def is_transition_posible(self, transition):
-        transition = transition
-        # We obtain the channel
+        """
+        Check if a transaction is possible depending of the actual global state. It check
+        the maximum buffer channel size and if its recieving signal if its in first position 
+        of the channel
+        """
+        if not transition: return False
+    
         channel = self.global_state[transition.actual_state.id][transition.next_state.id]
-        if transition.acction == '+':
+       
+        if transition.action == '+':
             return True if (len(channel) <= 3) else False
             # TODO change maximum buffer size
         elif transition.action == '-':
             #check if signal is in the last input in buffer
+            if not channel: return False
             return True if(channel[0] == transition.signal) else True
             
         else:
@@ -100,10 +124,32 @@ class Node:
        
 
 
-    def __str__(self):
-        string = "Node" + "\t - "+ str(self.global_state)
+    def is_node_visited(self, bitstate_hashing):
+        """
+        Call the bisStateHashing class to check if a state has already been visited
+        """
+        position = bitstate_hashing.hashing_function(self.global_state)
+        if bitstate_hashing.is_visited(position):
+            print("\t Node Already visited")
+            return True
         
-        #for transition in self.transaction_list:
-        #   string += "\n\t - " + str(transition) + "\n"
+        return False
+
+    def visit_node(self, bitstate_hashing):
+        """
+        Call the bistateHashing class to mark a global state as visited
+        """
+        position = bitstate_hashing.hashing_function(self.global_state)
+        bitstate_hashing.visit(position)
+        return
+
+
+    def __str__(self):
+        string = "\n+ Node" + "\t - "+ str(self.global_state)
+        # for transition in self.transaction_list:
+        #    string += "\n\t - " + str(transition)
 
         return string
+
+    def __repr__(self):
+        return str(self)

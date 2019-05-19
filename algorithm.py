@@ -1,7 +1,8 @@
-""" ESTE ARCHIVO SERA MAS TARDE EL MAIN ES PARA TESTEAR EL ALGORITMO
-"""
-# TODO stack is not pushiong propperly
-
+# File: algorithm.py
+# Authors: Alejandro Cirugeda & Juancarlos Quintana
+# Description:
+# TODO add comments
+#
 from finiteMachine import *
 from bitStateHashing import *
 from node import *
@@ -38,71 +39,55 @@ def algorithm(*finite_machines):
 
     initial_node = create_initial_node(machines)
     # ----------- create the stack and add the initial state ---------------
-    
+    initial_node.visit_node
     stack = []
     stack.append(initial_node)
  
-    
-    """ At this point we only this variables:
-            - machines:             list of fsm read from file
-            - bit_state_hashing:    class to check if a node has been visited
-            - stack:                list of class Nodes. Right now with the initial state
-    """
-    
+    initial_node.visit_node(bit_state_hashing)
+    deadlock_counter = 0
 
     # ---------------------- Start loop -----------------------
     while stack:
         # We check the last element of the stack without removing it
         actual_node = stack[-1]
+        print("\n")
         print("visiting: " + str(actual_node))
-        
-
-        # We check the positon of the hashi
-        position = bit_state_hashing.hashing_function(actual_node.global_state)
-        print("Position: %d" % position)
-
-
-        #if visited jump to the next node
-        if bit_state_hashing.is_node_visited(position):
-            print("\t Node Already visited")
-            stack.pop() #we remove it
-            continue
-
-
-
-        # if not, mark as visited
-        bit_state_hashing.visit_node(position)
-        print("we marked it in the bitstate hashing table\n")
-
+ 
 
         # check if have deadlock
         # TODO call function to check if have deadlock
         # if( global_state.check_deadlock() ): deadlock_counter += 1
 
 
-        # We obtain the first child and we added to the stack
-
+        
         child_node = actual_node.get_next_node(machines)
-
-        if (child_node == None):
+        if (child_node == None): #if no node is created, it dont have more transition left
             print("No node created")
-            stack.pop() # we remove it
+            stack.pop()
         else: 
-            print("adding to stack: " +str(actual_node)+" ----> " + str(child_node))
-            stack.append(child_node)
+            if(not child_node.is_node_visited(bit_state_hashing)):
+                child_node.visit_node(bit_state_hashing)
+                if(len(stack) < 100):
+                    stack.append(child_node)
+                    print("adding to stack: " +str(actual_node)+" ----> " + str(child_node))
 
 
 
-    print("We close the file")
-    # Print results: how many deadlock does it found
+
+
+    # TODO Print results: how many deadlock does it found
     bit_state_hashing.close_file()
-    return
+    return deadlock_counter
 
 
 
 
 
 def create_initial_node(fsm):
+    """
+    Return a Node instance with the information of the inital node necesary for the algorithm.
+    It will be the initial global state and the initial transactions of the fsm.
+    """
     global_state = create_initial_global_state(len(fsm))    
   
     # check transitions of the state and add them to the stack 
@@ -124,6 +109,10 @@ def create_initial_node(fsm):
 
 
 def create_initial_global_state(n_machines):
+    """
+    Will return a matrix representing the inital global state:
+    All channels empty and in the state 0 in every machine.
+    """
     matrix = [['' for i in range(n_machines)] for j in range(n_machines)]
 
     for i in range(n_machines):

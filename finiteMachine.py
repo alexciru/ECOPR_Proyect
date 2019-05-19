@@ -31,8 +31,8 @@ class FiniteMachine:
         return
 
     
-    def add_transition(self, state_id, next_state, acction, signal):
-        transition = Transition(next_state, acction, signal)
+    def add_transition(self, state_id, next_state, action, signal):
+        transition = Transition(next_state, action, signal)
         self.states[state_id].add_transition(transition)
         return
 
@@ -83,7 +83,7 @@ class State:
         return transition
 
     def __str__(self):
-        string = "S%d: %d transacctions:\n" % (self.id, len(self.transitions))
+        string = "S%d: %d transactions:\n" % (self.id, len(self.transitions))
         for i in range(len(self.transitions)):
             string += "\t - " + str(self.transitions[i]) + "\n"
 
@@ -104,17 +104,17 @@ class Transition:
         
     """
 
-    def __init__(self, id_fsm, from_state, to_state, acction, signal):
+    def __init__(self, id_fsm, from_state, to_state, action, signal):
         self.id_fsm = id_fsm
         self.actual_state = from_state 
         self.next_state = to_state
-        self.acction = acction
+        self.action = action
         self.signal = signal
         
         return
 
     def __str__(self):
-        string = "m%d: S%d to S%d:%c%c" % (self.id_fsm, self.actual_state.id, self.next_state.id , self.acction, self.signal)
+        string = "m%d: S%d to S%d:%c%c" % (self.id_fsm, self.actual_state.id, self.next_state.id , self.action, self.signal)
         return string
 
     def __repr__(self):
