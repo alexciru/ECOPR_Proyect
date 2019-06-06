@@ -31,8 +31,8 @@ class FiniteMachine:
         return
 
     
-    def add_transition(self, state_id, next_state, action, signal):
-        transition = Transition(next_state, action, signal)
+    def add_transition(self, fsm_id, state_id, next_state, action, signal):
+        transition = Transition(fsm_id, state_id, next_state, action, signal)
         self.states[state_id].add_transition(transition)
         return
 
@@ -48,9 +48,6 @@ class FiniteMachine:
             
         return string
             
-
-
-    
 
 class State:
     
@@ -93,7 +90,7 @@ class State:
 
 class Transition:
     """
-    This class will storage information about transatiosns, will be store information about
+    This class will storage information about transitions, will be store information about
     the conexion to another state , reciving or sending a signal , and the signal recieve.
 
     Variables:

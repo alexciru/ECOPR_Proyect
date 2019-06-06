@@ -17,7 +17,7 @@ def main():
     # Obtain a list of machines
 
     # start executing the algoritm
-    deadlocks = algorithm()
+    # deadlocks = algorithm()
     # show how many deadlocks 
        
     return
