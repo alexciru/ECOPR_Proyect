@@ -14,10 +14,13 @@ def main():
     # Read information from the file
     r = MachineReader()
     r.readFile("data.txt")
+
+    print(r.machines[0])
+    print(r.machines[1])
     # Obtain a list of machines
 
     # start executing the algoritm
-    # deadlocks = algorithm()
+    deadlocks = algorithm()
     # show how many deadlocks 
        
     return
