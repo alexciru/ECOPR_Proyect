@@ -34,5 +34,5 @@ class MachineReader:
             else:
                 print("ERROR: The file provides incorrect information\n")
                 return
-
+    
         return self.machines
