@@ -14,6 +14,7 @@ def main():
     # Read information from the file
     r = MachineReader()
     r.readFile("data.txt")
+
     # Obtain a list of machines
     
     # start executing the algoritm
@@ -21,7 +22,6 @@ def main():
     #deadlocks = algorithm()
     # show how many deadlocks 
  
-       
     return
 
 
