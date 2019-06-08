@@ -1,7 +1,8 @@
 # File: algorithm.py
 # Authors: Alejandro Cirugeda & Juancarlos Quintana
 # Description:
-# TODO add comments
+# In this file is the execution of the algorithm of the validation. We create a initial global state and using depth-first algortith
+# to travel across the reachability graph and checking if contain any deadlock.
 #
 from finiteMachine import *
 from bitStateHashing import *
@@ -56,8 +57,7 @@ def algorithm(*finite_machines):
 
         # check if have deadlock
         # TODO call function to check if have deadlock
-        # if( global_state.check_deadlock() ): deadlock_counter += 1
-
+        if( global_state.check_deadlock() ): deadlock_counter += 1
 
         
         child_node = actual_node.get_next_node(machines)
@@ -72,10 +72,6 @@ def algorithm(*finite_machines):
                     print("adding to stack: " +str(actual_node)+" ----> " + str(child_node))
 
 
-
-
-
-    # TODO Print results: how many deadlock does it found
     bit_state_hashing.close_file()
     return deadlock_counter
 

@@ -12,16 +12,18 @@ from machineReader import *
 
 def main():
     # Read information from the file
-    r = MachineReader()
-    r.readFile("data.txt")
+    #r = MachineReader()
+    #r.readFile("data.txt")
     # Obtain a list of machines
-
+    
     # start executing the algoritm
-    # deadlocks = algorithm()
+    
+    deadlocks = algorithm()
     # show how many deadlocks 
+ 
        
     return
-        
+
 
 
 if __name__ == "__main__":

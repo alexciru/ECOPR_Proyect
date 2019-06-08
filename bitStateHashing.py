@@ -7,6 +7,7 @@
 # 
 # We will using a 16bit for the hashing function, and we will be using 2*16 = 65.535 position
 
+# from bitstring import BitArray
 
 class BitState:
     """
@@ -53,11 +54,38 @@ class BitState:
 
     # This is the hashing function. It will return a integer of 16bits indicating a position 
     # in the file. In order to calculate this integer it will use all the bits of the global state
-    # matrix
-    #TODO change hashing function: jenkings hashing (use str function) 
+    # matrix 
     #TODO change mask lenght
     def hashing_function(self, global_state):
         value = hash(str(global_state))
         value = value & 0b11111
         return value
         
+
+    # This our version of the hashing function. We know is not very well design but it will work for the proyect
+    # This version is more or less based on the one at a time jenkings function, but we cahnce some values in 
+    # the number of shifting bits
+    def jenkings_hashing(global_state):  
+        key = str(global_state)
+        lenght = len(key)
+        i = 0
+        mask = 0b1111111111111111
+        hash_value = 0 
+
+        while i != lenght:
+            hash_value += ord(key[i]) # hash += key[i++];
+        
+            i += 1
+            hash_value += (hash_value << 5)  # hash += hash << 10;
+            hash_value = hash_value & mask
+            hash_value ^= (hash_value >> 3)  # hash ^= hash >> 6;
+            hash_value = hash_value & mask
+
+        hash_value += (hash_value << 4)      # hash += hash << 3;
+        hash_value = hash_value & mask
+        hash_value ^= (hash_value >> 3)      # hash ^= hash >> 11
+        hash_value = hash_value & mask
+        hash_value = (hash_value << 1)       # hash += hash << 15;
+        hash_value = hash_value & mask
+
+        return hash_value
