@@ -1,3 +1,8 @@
-1:A+aB;B+bC;C-bA
-2:A-aB;B+bC;B-aA
-3:A-aB;A+bC;B-aC;C+bB
+M0:S0,S1
+t:S0+aS1
+t:S1+bS0
+t:S0-aS1
+M1:S0,S1
+t:S0+aS1
+t:S1-bS0
+t:S0-aS1
