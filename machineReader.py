@@ -10,31 +10,29 @@ class MachineReader:
 
     def readFile(self, file):
         self.document = open(file, "r")
-        info = self.document.readlines()
-        fsm_id = 0
-        state_id = 0
-        for i in info:
-           #print(i)
-            for j in i:
-                #print(j)
-                if j > '0' and j < '9':
-                    fsm_id+=1
-                    fsm = FiniteMachine(fsm_id)
-                    #print("se ha creado una maquina ", fsm_id)
-                elif j == "A" or j == "B" or j == "C":
-                    state_id+=1
-                    state = State(state_id)
+        for line in self.document:
+            if line[0] == "M":
+                fsm_id = line[1]
+                fsm = FiniteMachine(int(fsm_id))
+                self.machines.append(fsm)
+                sub_list = line.split(":")
+                state_list = sub_list[1].split(",")
+                for token in state_list:
+                    state = State(int(token[1]))
                     fsm.add_state(state)
-                    #print("se ha creado un estado ", j)
-                elif j == "+" or j == "-":
-                    num = i.index(j)
-                    #print(num)
-                    transition = Transition(fsm_id, i[num-1], i[num+2], j, i[num+1])
-                    state.add_transition(transition)
-                    fsm.add_transition(fsm_id, state_id, i[num+2], j, i[num+1])
-                    #print("se ha creado una transicion", fsm_id, i[num-1], i[num+2], j, i[num+1])
-            self.machines.append(fsm)
-            #print("una maquina añadida a la lista")
-            fsm_id+=1
-            state_id+=1
+            elif line[0] == "t":
+                transition_list = line.split(":")
+                for m in transition_list[1]:
+                    if m == "+" or m == "-":
+                        k = line.index(m)
+                        index_or = int(line[k-1])
+                        original_state = fsm.states[index_or]
+                        index_dest = int(line[k+3])
+                        destination_state = fsm.states[index_dest]
+                        transition = Transition(int(fsm_id), original_state, destination_state, m, line[k+1])
+                        fsm.states[int(line[k-1])].add_transition(transition)
+            else:
+                print("ERROR: The file provides incorrect information\n")
+                return
+
         return self.machines
