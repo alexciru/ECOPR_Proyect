@@ -111,8 +111,7 @@ class Node:
         channel = self.global_state[transition.actual_state.id][transition.next_state.id]
        
         if transition.action == '+':
-            return True if (len(channel) <= 3) else False
-            # TODO change maximum buffer size
+            return True if (len(channel) <= 10) else False
         elif transition.action == '-':
             #check if signal is in the last input in buffer
             if not channel: return False
