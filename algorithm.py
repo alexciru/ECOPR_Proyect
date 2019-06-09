@@ -33,7 +33,7 @@ def algorithm(machines):
     while stack:
         # We check the last element of the stack without removing it
         actual_node = stack[-1]
-
+ 
         child_node = actual_node.get_next_node(machines)
         if (child_node == None):    #if no node is created, it dont have more transition left
             stack.pop()

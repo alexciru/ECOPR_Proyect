@@ -60,8 +60,7 @@ class Node:
         # change the channel of the new state depending of the action
         id_fsm = transaction.id_fsm
         other_fsm = 0 if id_fsm == 1 else 1 # TODO change this for more flexibility
-
-        channel = self.global_state[id_fsm][other_fsm]  
+        channel = self.global_state[other_fsm][id_fsm]  
         
         new_global_state = deepcopy(self.global_state)
 
@@ -107,8 +106,9 @@ class Node:
         of the channel
         """
         if not transition: return False
-    
-        channel = self.global_state[transition.actual_state.id][transition.next_state.id]
+        
+        id_other_fsm = 1 if transition.id_fsm == 0 else 0
+        channel = self.global_state[id_other_fsm][transition.id_fsm]
        
         if transition.action == '+':
             return True if (len(channel) <= 10) else False
