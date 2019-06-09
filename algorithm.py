@@ -33,11 +33,7 @@ def algorithm(machines):
     while stack:
         # We check the last element of the stack without removing it
         actual_node = stack[-1]
- 
-        # check if have deadlock
-        if( actual_node.check_deadlock() ): deadlock_counter += 1
-
-        
+     
         child_node = actual_node.get_next_node(machines)
         if (child_node == None):    #if no node is created, it dont have more transition left
             stack.pop()
@@ -45,6 +41,8 @@ def algorithm(machines):
         else: 
             if(not child_node.is_node_visited(bit_state_hashing)):
                 child_node.visit_node(bit_state_hashing)
+                 # check if have deadlock
+                if( child_node.check_deadlock() ): deadlock_counter += 1
 
                 if(len(stack) < 100):    # We limited the size of the stack to 100
                     stack.append(child_node)

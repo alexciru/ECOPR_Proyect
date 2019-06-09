@@ -151,6 +151,8 @@ class Node:
             if self.is_transition_posible(transaction):
                 return False
 
+        print("Deadlock Found")
+        print(self.global_state)
         return True
 
     def __str__(self):
