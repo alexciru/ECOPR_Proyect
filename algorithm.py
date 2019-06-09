@@ -27,21 +27,20 @@ def algorithm(machines):
  
     initial_node.visit_node(bit_state_hashing)
     deadlock_counter = 0
-
+    states_visited = 1 #count the initial state
 
     # start of the loop
     while stack:
         # We check the last element of the stack without removing it
         actual_node = stack[-1]
-     
+
         child_node = actual_node.get_next_node(machines)
         if (child_node == None):    #if no node is created, it dont have more transition left
             stack.pop()
-
         else: 
             if(not child_node.is_node_visited(bit_state_hashing)):
-                child_node.visit_node(bit_state_hashing)
-                 # check if have deadlock
+                child_node.visit_node(bit_state_hashing) #mark as visited and add to stack
+                states_visited += 1
                 if( child_node.check_deadlock() ): deadlock_counter += 1
 
                 if(len(stack) < 100):    # We limited the size of the stack to 100
@@ -50,6 +49,7 @@ def algorithm(machines):
 
 
     #close the file with the hashing table
+    print("Algorithm finished with %d states visited" % states_visited)
     bit_state_hashing.close_file()
     return deadlock_counter
 

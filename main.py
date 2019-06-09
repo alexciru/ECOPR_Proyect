@@ -16,10 +16,7 @@ import time
 def main():
     # Read information from the file
     r = MachineReader()
-    r.readFile("data2.txt")
-
-    for i in r.machines:
-        print(i)
+    r.readFile("data.txt")
 
     #for machine in r.machines : print(machine)
     
