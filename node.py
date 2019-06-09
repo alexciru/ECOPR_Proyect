@@ -1,8 +1,9 @@
 # File: node.py
 # Authors: Alejandro Cirugeda & Juancarlos Quintana
 # Description:
-# 
-#
+# The Node class is a class used for the verifier algorithm. This class is in charge to storage all 
+# all the information needed for the "nodes" of the reachability graph. Storing the gloabl stte and
+# the posible transaction that havent been visited yet
 
 from finiteMachine import *
 from bitStateHashing import *
@@ -52,9 +53,8 @@ class Node:
                 if (self.is_transition_posible(transaction)):
                     break
             
-        
-        print("Creating new node with t = " + str(transaction))
-
+    
+        #print("Creating new node with t = " + str(transaction))
         length = len(self.global_state)
         
         # change the channel of the new state depending of the action
@@ -129,7 +129,7 @@ class Node:
         """
         position = bitstate_hashing.hashing_function(self.global_state)
         if bitstate_hashing.is_visited(position):
-            print("\t Node Already visited")
+            #print("\t Node Already visited")
             return True
         
         return False
@@ -142,6 +142,16 @@ class Node:
         bitstate_hashing.visit(position)
         return
 
+    def check_deadlock(self):
+        """
+        Check if the actual global state contain any deadlock. Deadlock its the global state which has no posible
+        posible transactions to the next state. This functions check if there is at least one posible transaction
+        """
+        for transaction in self.transaction_list:
+            if self.is_transition_posible(transaction):
+                return False
+
+        return True
 
     def __str__(self):
         string = "\n+ Node" + "\t - "+ str(self.global_state)

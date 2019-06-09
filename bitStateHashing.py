@@ -25,7 +25,7 @@ class BitState:
 
     def open_file(self):
         self.f = open(self.filename, 'w+')
-        self.f.write('0' * 32)
+        self.f.write('0' * 2**16)
         # TODO cambiar tamaño por 2**16
         return
 
@@ -55,10 +55,9 @@ class BitState:
     # This is the hashing function. It will return a integer of 16bits indicating a position 
     # in the file. In order to calculate this integer it will use all the bits of the global state
     # matrix 
-    #TODO change mask lenght
     def hashing_function(self, global_state):
         value = hash(str(global_state))
-        value = value & 0b11111
+        value = value & 0b1111111111111111
         return value
         
 

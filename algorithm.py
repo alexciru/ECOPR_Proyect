@@ -4,35 +4,16 @@
 # In this file is the execution of the algorithm of the validation. We create a initial global state and using depth-first algortith
 # to travel across the reachability graph and checking if contain any deadlock.
 #
+# CONSRAINTS:
+#      - The stack size is limited to 100 elements
+
 from finiteMachine import *
 from bitStateHashing import *
 from node import *
 
-def algorithm(*finite_machines):
-    # ---------------------------------- Load FSM -----------------------
-    fsm1 = FiniteMachine(0)
-    fsm2 = FiniteMachine(1)
-    state0 = State(0)
-    state1 = State(1)
-    state0.add_transition(Transition(0, state0, state1, '+', 'a'))
-    state0.add_transition(Transition(0, state0, state1, '-', 'a'))
-    state1.add_transition(Transition(0,state1, state0, '+', 'b'))
-    st0 = State(0)
-    st1 = State(1)
-    st0.add_transition(Transition(1, st0, st1, '+', 'a'))
-    st0.add_transition(Transition(1, st0, st1, '-', 'a'))
-    st1.add_transition(Transition(1, st1, st0, '-', 'b'))
-    fsm1.add_state(state0)
-    fsm1.add_state(state1)
-    fsm2.add_state(st0)
-    fsm2.add_state(st1)
-    print(fsm1)
-    print(fsm2)
+def algorithm(machines):
 
-    machines = []
-    machines.append(fsm1)
-    machines.append(fsm2)
-
+    # create file for the hashing table
     bit_state_hashing = BitState("hashingtable.txt")
     bit_state_hashing.open_file()
     
@@ -47,31 +28,30 @@ def algorithm(*finite_machines):
     initial_node.visit_node(bit_state_hashing)
     deadlock_counter = 0
 
-    # ---------------------- Start loop -----------------------
+
+    # start of the loop
     while stack:
         # We check the last element of the stack without removing it
         actual_node = stack[-1]
-        print("\n")
-        print("visiting: " + str(actual_node))
  
-
         # check if have deadlock
-        # TODO call function to check if have deadlock
-        if( global_state.check_deadlock() ): deadlock_counter += 1
+        if( actual_node.check_deadlock() ): deadlock_counter += 1
 
         
         child_node = actual_node.get_next_node(machines)
-        if (child_node == None): #if no node is created, it dont have more transition left
-            print("No node created")
+        if (child_node == None):    #if no node is created, it dont have more transition left
             stack.pop()
+
         else: 
             if(not child_node.is_node_visited(bit_state_hashing)):
                 child_node.visit_node(bit_state_hashing)
-                if(len(stack) < 100):
+
+                if(len(stack) < 100):    # We limited the size of the stack to 100
                     stack.append(child_node)
-                    print("adding to stack: " +str(actual_node)+" ----> " + str(child_node))
 
 
+
+    #close the file with the hashing table
     bit_state_hashing.close_file()
     return deadlock_counter
 
