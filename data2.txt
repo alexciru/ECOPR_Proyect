@@ -1,7 +1,7 @@
 M0:S0,S1,S2,S3,S4
 t:S0+aS1
 t:S1-bS2
-t:S1-aS4
+t:S1-cS4
 t:S1-bS0
 t:S2+aS1
 t:S3-bS0

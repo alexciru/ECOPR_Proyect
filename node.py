@@ -127,7 +127,9 @@ class Node:
         """
         Call the bisStateHashing class to check if a state has already been visited
         """
-        position = bitstate_hashing.hashing_function(self.global_state)
+        #position = bitstate_hashing.hashing_function(self.global_state)
+        position = bitstate_hashing.jenkings_hashing(self.global_state)
+        
         if bitstate_hashing.is_visited(position):
             #print("\t Node Already visited")
             return True
@@ -138,7 +140,8 @@ class Node:
         """
         Call the bistateHashing class to mark a global state as visited
         """
-        position = bitstate_hashing.hashing_function(self.global_state)
+        #position = bitstate_hashing.hashing_function(self.global_state)
+        position = bitstate_hashing.jenkings_hashing(self.global_state)
         bitstate_hashing.visit(position)
         return
 

@@ -64,7 +64,7 @@ class BitState:
     # This our version of the hashing function. We know is not very well design but it will work for the proyect
     # This version is more or less based on the one at a time jenkings function, but we cahnce some values in 
     # the number of shifting bits
-    def jenkings_hashing(global_state):  
+    def jenkings_hashing(self, global_state):  
         key = str(global_state)
         lenght = len(key)
         i = 0
